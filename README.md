@@ -1,4 +1,4 @@
-##Ohio COVID-19 Dashboard
+## Ohio COVID-19 Dashboard
 
 __**Purpose:**__ 
 
