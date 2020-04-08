@@ -1,4 +1,5 @@
 ##Ohio COVID-19 Dashboard
+
 __**Purpose:**__ 
 
 This Dashboard was created to give individuals a daily view of the statistics of the COVID-19 virus spread throughout Ohio.
