@@ -8,6 +8,7 @@ import sqlite3
 import datetime as dt
 
 app = dash.Dash()
+server = app.server
 
 app.layout = html.Div([
 				html.Div(children='Ohio Covid-19 Dashboard',
