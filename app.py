@@ -17,6 +17,10 @@ app.layout = html.Div([
 				html.Br(),
 				html.Br(),
 				html.Div([
+					html.Label('''Disclaimer:  Data is not in real time.  Due to the nature of the situation and manner of
+								collection, data may lag several days.''')]),
+				html.Br(),
+				html.Div([
 					html.Div([
 						dcc.Graph(id='daily_new_cases_graph')],
 					style=dict(border='none',
@@ -32,7 +36,7 @@ app.layout = html.Div([
 						html.Br(),
 						html.Br(),
 						html.Br(),
-						html.Label(['Total Case Count'],
+						html.Label(['Total Ohio Case Count'],
 							style=dict(fontSize=30,
 									   textDecoration='underline')),
 						html.Br(),
@@ -66,7 +70,7 @@ app.layout = html.Div([
 						html.Br(),
 						html.Br(),
 						html.Br(),
-						html.Label(['Total Death Count'],
+						html.Label(['Total Ohio Death Count'],
 							style=dict(fontSize=30,
 								       textDecoration='underline')),
 						html.Br(),
@@ -105,14 +109,23 @@ app.layout = html.Div([
 
 def update_new_cases(n_intervals):
 
-	start_date = '2020-03-20'
+	start_date = pd.to_datetime('2020-02-12')
 	end_date = dt.datetime.today()
 
+	#US Data
+	df_us = pd.read_csv('us_data.csv')
+	df_us['date'] = pd.to_datetime(df_us['date'])
+	df_us['deaths'] = df_us['deaths'].astype(int)
+	df_us['deaths'] = df_us['deaths'] * .035
+
+
+	#Forecast Data
 	df_forecast = pd.read_csv('COVID forecast.csv')
 	df_forecast['date'] = pd.to_datetime(df_forecast['date'])
 	mask = (df_forecast['date'] > start_date) & (df_forecast['date'] <= end_date)
 	df_forecast = df_forecast.loc[mask]
 
+	#Ohio Data
 	df = pd.read_csv('COVIDSummaryData.csv')
 	df = df[:-1]
 	df['Case Count'] =  df['Case Count'].astype(int)
@@ -137,13 +150,34 @@ def update_new_cases(n_intervals):
   							 line=dict(color='blue')))
 
 	trace1.append(go.Bar(x=df_forecast['date'],
-						 y=df_forecast['forecast'],
-						 name='Forecast',
+						 y=df_forecast['forecast_2'],
+						 name='2nd Forecast',
+						 opacity=0.5,
+						 marker=dict(color='red')))
+
+	trace1.append(go.Bar(x=df_forecast['date'],
+						 y=df_forecast['diff'],
+						 name='1st Forecast',
 						 opacity=0.5,
 						 marker=dict(color='orange')))
 
 
-	layout_1 = go.Layout(title='New Daily Cases')
+	layout_1 = go.Layout(title='New Daily Cases',
+						 barmode='stack',
+						 annotations=[dict(x='2020-3-23',
+						 				  y=268,
+						 				  xref='x',
+						 				  yref='y',
+						 				  text='Ohio Stay in Place',
+						 				  showarrow=True,
+						 				  arrowhead=1),
+						 			  dict(x='2020-3-16',
+						 				  y=190,
+						 				  xref='x',
+						 				  yref='y',
+						 				  text='Ohio Closes Schools',
+						 				  showarrow=True,
+						 				  arrowhead=1)])
 
 	output_1 = dict(data=trace1, layout=layout_1)
 
@@ -153,10 +187,16 @@ def update_new_cases(n_intervals):
 	trace2.append(go.Scatter(x=death_sum.index,
   							 y=death_sum,
   							 mode='lines',
-  							 name='New Cases',
+  							 name='Ohio Deaths per Day',
   							 line=dict(color='blue')))
 
-	layout_2 = go.Layout(title='New Daily Deaths')
+	trace2.append(go.Scatter(x=df_us['date'],
+  							 y=df_us['deaths'],
+  							 mode='lines',
+  							 name='US Adj Deaths per Day',
+  							 line=dict(color='red')))
+
+	layout_2 = go.Layout(title='Ohio vs US Daily Deaths<br><sub>(US Deaths Adjusted by Population)</sub>')
 
 	output_2 = dict(data=trace2, layout=layout_2)
 
@@ -166,4 +206,4 @@ def update_new_cases(n_intervals):
 
 #------------------------------------------------
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
