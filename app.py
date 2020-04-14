@@ -151,6 +151,7 @@ def update_new_cases(n_intervals):
 	df_us['date'] = pd.to_datetime(df_us['date'])
 	df_us['deaths'] = df_us['deaths'].astype(int)
 	df_us['deaths'] = df_us['deaths'] * .035
+	df_us['oh_deaths'] =  df_us['oh_deaths'].astype(int)
 
 
 	#Forecast Data
@@ -202,6 +203,8 @@ def update_new_cases(n_intervals):
 						 				  y=268,
 						 				  xref='x',
 						 				  yref='y',
+						 				  ax=0,
+						 				  ay=-50,
 						 				  text='Ohio Stay in Place',
 						 				  showarrow=True,
 						 				  arrowhead=1),
@@ -218,8 +221,8 @@ def update_new_cases(n_intervals):
 	trace2 = []
 
 
-	trace2.append(go.Scatter(x=death_sum.index,
-  							 y=death_sum,
+	trace2.append(go.Scatter(x=df_us['date'],
+  							 y=df_us['oh_deaths'],
   							 mode='lines',
   							 name='Ohio Deaths per Day',
   							 line=dict(color='blue')))
