@@ -190,12 +190,6 @@ def update_new_cases(n_intervals):
 						 opacity=0.5,
 						 marker=dict(color='red')))
 
-	trace1.append(go.Bar(x=df_forecast['date'],
-						 y=df_forecast['diff'],
-						 name='1st Forecast',
-						 opacity=0.5,
-						 marker=dict(color='orange')))
-
 
 	layout_1 = go.Layout(title='New Daily Cases',
 						 barmode='stack',
