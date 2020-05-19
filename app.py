@@ -45,13 +45,16 @@ app.layout = html.Div([
 				html.Div(children='Ohio Covid-19 Dashboard',
 					style=dict(textAlign='center',
 							    fontSize=30)),
+				html.Div(children='A Simple Look at Covid-19 in Ohio',
+					style=dict(textAlign='center',
+							    fontSize=20)),
 				html.Br(),
 				html.Br(),
 				html.Div([
 					html.Label('''Disclaimer:  Data is not in real time.  Due to the nature of the situation and manner of
 								collection, data may lag several days.'''),
 					html.Br(),
-					html.Label('''*Last Updated: 5/18/20 6:10 AM EST''')]),
+					html.Label('''*Last Updated: 5/19/20 6:10 AM EST''')]),
 
 				html.Br(),
 				html.Div([
@@ -186,7 +189,7 @@ def update_new_cases(n_intervals):
 
 	trace1.append(go.Bar(x=df_forecast['date'],
 						 y=df_forecast['forecast_2'],
-						 name='2nd Forecast',
+						 name='Case Forecast',
 						 opacity=0.5,
 						 marker=dict(color='red')))
 
@@ -197,7 +200,7 @@ def update_new_cases(n_intervals):
 						 				  y=268,
 						 				  xref='x',
 						 				  yref='y',
-						 				  ax=0,
+						 				  ax=50,
 						 				  ay=-50,
 						 				  text='Ohio Stay in Place',
 						 				  showarrow=True,
@@ -224,7 +227,7 @@ def update_new_cases(n_intervals):
 	trace2.append(go.Scatter(x=df_us['date'],
   							 y=df_us['deaths'],
   							 mode='lines',
-  							 name='US Adj Deaths per Day',
+  							 name='US Adj Deaths per Day ',
   							 line=dict(color='red')))
 
 	layout_2 = go.Layout(title='Ohio vs US Daily Deaths<br><sub>(US Deaths Adjusted by Population)</sub>')
