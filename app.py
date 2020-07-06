@@ -54,7 +54,7 @@ app.layout = html.Div([
 					html.Label('''Disclaimer:  Data is not in real time.  Due to the nature of the situation and manner of
 								collection, data may lag several days.'''),
 					html.Br(),
-					html.Label('''*Last Updated: 6/29/20 6:10 AM EST''')]),
+					html.Label('''*Last Updated: 7/6/20 6:10 AM EST''')]),
 
 				html.Br(),
 				html.Div([
