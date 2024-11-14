@@ -10,7 +10,7 @@ __**Command Line:**__
 
 Unix Commands:
 
-	- python3 covid_ohio_dash.py
+	- python3 app.py
 	
 ---
 
